@@ -25,13 +25,6 @@ class ImageController extends Controller
      */
     public function send(Request $request)
     {
-        $title = !empty($request->input('image-title')) ? $request->input('image-title') : self::DEFAULT_IMAGE_NAME . time();
-        $name = $title . '.' . $request->file('image')->getClientOriginalExtension();
-        $type = !empty($request->input('image-type')) ? $request->input('image-type') : self::DEFAULT_IMAGE_TYPE;
-        $dir = !empty($request->input('parent-id')) ? $request->input('parent-id') : self::DEFAULT_IMAGE_DIR;
-        $path = public_path() . self::PATH_TO_IMAGES . $type . '/' . $dir;
-        $src = route('home') . self::PATH_TO_IMAGES . $type . '/' . $dir . '/';
-
         // Check validation
         $v = \Validator::make($request->all(), [
             'image' => 'mimes:jpeg|required',
@@ -42,6 +35,13 @@ class ImageController extends Controller
         if ($v->fails()) {
             return ['error' => $v->errors()];
         }
+
+        $title = !empty($request->input('image-title')) ? $request->input('image-title') : self::DEFAULT_IMAGE_NAME . time();
+        $name = $title . '.' . $request->file('image')->getClientOriginalExtension();
+        $type = !empty($request->input('image-type')) ? $request->input('image-type') : self::DEFAULT_IMAGE_TYPE;
+        $dir = !empty($request->input('parent-id')) ? $request->input('parent-id') : self::DEFAULT_IMAGE_DIR;
+        $path = public_path() . self::PATH_TO_IMAGES . $type . '/' . $dir;
+        $src = route('home') . self::PATH_TO_IMAGES . $type . '/' . $dir . '/';
 
         try {
             if (!empty($name)) {

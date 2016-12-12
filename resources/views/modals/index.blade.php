@@ -84,6 +84,7 @@
                     $('#uploadForm').modal('hide');
                     updatePage();
                 } else {
+                    $("#modal-body-error").html('');
                     displayErrors(err.image);
                     displayErrors(err["image-title"]);
                 }
